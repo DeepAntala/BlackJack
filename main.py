@@ -45,6 +45,68 @@ class Deck:
     def deal(self):
         return self.all_cards.pop()
     
+class Hand():
+    #Increasing value and handling aces
+    def __init__(self):
+        self.cards = []
+        self.value = 0
+        self.aces = 0
+    def add_card(self,card):
+        self.cards.append(card)
+        self.value += values[card.rank]
+        if card.rank == "Ace":
+            self.aces += 1
+        
+    def adjust_for_ace(self):
+        while self.value > 21 and self.aces:
+            self.value -= 10
+            self.aces -= 1
+
+class Chips:
+    #Betting chips
+    def __init__(self, total=100):
+        
+        self.total = total
+        self.bet = 0
+    
+    def win_bet(self):
+        self.total += self.bet
+    
+    def lose_bet(self):
+        self.total -= self.bet
+        
+def take_bet(chips):
+    while True:
+        try:
+            chips.bet=int(input("How many chips would you like to bet?"))
+        except:
+            print("You have not provided an integer. Please input an integer.")
+        else:
+            if chips.bet>chips.total:
+                print("Sorry, you your bet cannot exceed {}".format(chips.total))
+            else:
+                break
+        
+def hit(deck,hand):
+    single_card=deck.deal()
+    hand.add_card(single_card)
+    hand.adjust_for_ace()
+
+            
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 class Player:
     
     def __init__(self,name):
